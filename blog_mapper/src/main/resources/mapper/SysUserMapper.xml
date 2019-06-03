@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.SysUserMapper">
+
+    <sql id="userField">
+      sys_user_seq,
+      user_name,
+      password,
+      age,
+      email,
+      phone,
+      birthday,
+      real_name,
+      real_birthday,
+      sys_user_status,
+      sys_role_seq,
+      user_type,
+      create_by,
+      create_date,
+      update_by,
+      update_date
+    </sql>
+
+    <sql id="userValue">
+       #{sysUserSeq},
+       #{userName},
+       #{password},
+       #{age},
+       #{email},
+       #{phone},
+       #{birthday},
+       #{realName},
+       #{realBirthday},
+       #{sysUserStatus},
+       #{sysRoleSeq},
+       #{userType},
+       #{createBy},
+       #{createDate},
+       #{updateBy},
+       #{updateDate}
+    </sql>
+
+    <sql id="selectWhere">
+        <where>
+          <if test="sysUserSeq !=null and sysUserSeq != ''">
+              AND  sys_user_seq=#{sysUserSeq}
+          </if>
+            <if test="userName !=null and userName != ''">
+                AND  user_name=#{userName}
+            </if>
+            <if test="password !=null and password != ''">
+                AND  password=#{password}
+            </if>
+            <if test="age !=null and age != ''">
+                AND  age=#{age}
+            </if>
+            <if test="email !=null and email != ''">
+                AND  email=#{email}
+            </if>
+            <if test="phone !=null and phone != ''">
+                AND  phone=#{phone}
+            </if>
+            <if test="birthday !=null and birthday != ''">
+                AND  birthday=#{birthday}
+            </if>
+            <if test="realName !=null and realName != ''">
+                AND  real_name=#{realName}
+            </if>
+            <if test="realBirthday !=null and realBirthday != ''">
+                AND  real_birthday=#{realBirthday}
+            </if>
+            <if test="sysUserStatus !=null and sysUserStatus != ''">
+                AND  sys_user_status=#{sysUserStatus}
+            </if>
+            <if test="sysRoleSeq !=null and sysRoleSeq != ''">
+                AND  sys_role_seq=#{sysRoleSeq}
+            </if>
+            <if test="userType !=null and userType != ''">
+                AND  user_type=#{userType}
+            </if>
+            <if test="createBy !=null and createBy != ''">
+                AND  create_by=#{createBy}
+            </if>
+            <if test="createDate !=null and createDate != ''">
+                AND  create_date=#{createDate}
+            </if>
+            <if test="updateBy !=null and updateBy != ''">
+                AND  update_by=#{updateBy}
+            </if>
+            <if test="updateDate !=null and updateDate != ''">
+                AND  update_date=#{updateDate}
+            </if>
+        </where>
+
+    </sql>
+
+    <select id="selectByUserName" parameterType="String" resultType="SysUser">
+        select  <include refid="userField"/> from  sys_user where user_name=#{userName}
+    </select>
+
+    <select id="selectByParams" parameterType="SysUser" resultType="SysUser">
+        select  <include refid="userField"/> from  sys_user <include refid="selectWhere"/>
+
+    </select>
+
+
+
+</mapper>

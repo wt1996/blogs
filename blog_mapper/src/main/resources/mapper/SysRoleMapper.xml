@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.SysRoleMapper">
+
+    <sql id="roleField">
+      sys_role_seq,
+      role_name,
+      create_by,
+      create_date,
+      update_by,
+      update_date
+    </sql>
+
+    <sql id="roleValue">
+       #{sysRoleSeq},
+       #{roleName},
+       #{createBy},
+       #{createDate},
+       #{updateBy},
+       #{updateDate}
+    </sql>
+
+    <sql id="selectWhere">
+        <where>
+          <if test="sysRoleSeq !=null and sysRoleSeq != ''">
+              AND  sys_role_seq=#{sysRoleSeq}
+          </if>
+            <if test="roleName !=null and roleName != ''">
+                AND  role_name=#{roleName}
+            </if>
+            <if test="createBy !=null and createBy != ''">
+                AND  create_by=#{createBy}
+            </if>
+            <if test="createDate !=null and createDate != ''">
+                AND  create_date=#{createDate}
+            </if>
+            <if test="updateBy !=null and updateBy != ''">
+                AND  update_by=#{updateBy}
+            </if>
+            <if test="updateDate !=null and updateDate != ''">
+                AND  update_date=#{updateDate}
+            </if>
+        </where>
+
+    </sql>
+
+
+
+</mapper>

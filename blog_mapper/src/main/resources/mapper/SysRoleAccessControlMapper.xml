@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.SysRoleAccessControlMapper">
+
+    <sql id="roleField">
+      sys_role_seq,
+      sys_access_control_seq,
+      create_by,
+      create_date
+    </sql>
+
+    <sql id="roleValue">
+       #{sysRoleSeq},
+       #{sysAccessControlSeq},
+       #{createBy},
+       #{createDate}
+    </sql>
+
+    <sql id="selectWhere">
+        <where>
+          <if test="sysRoleSeq !=null and sysRoleSeq != ''">
+              AND  sys_role_seq=#{sysRoleSeq}
+          </if>
+            <if test="sysAccessControlSeq !=null and sysAccessControlSeq != ''">
+                AND  sys_access_control_seq=#{sysAccessControlSeq}
+            </if>
+            <if test="createBy !=null and createBy != ''">
+                AND  create_by=#{createBy}
+            </if>
+            <if test="createDate !=null and createDate != ''">
+                AND  create_date=#{createDate}
+            </if>
+        </where>
+
+    </sql>
+
+    <delete id="deleteByTwoId" parameterType="long" >
+        delete  from sys_role_access_control where  sys_role_seq=#{sysRoleSeq}  and  sys_access_control_seq=#{sysAccessControlSeq}
+    </delete>
+
+
+</mapper>
