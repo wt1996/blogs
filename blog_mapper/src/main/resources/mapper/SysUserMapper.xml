@@ -7,6 +7,7 @@
       sys_user_seq,
       user_name,
       password,
+      sex,
       age,
       email,
       phone,
@@ -15,7 +16,6 @@
       real_birthday,
       sys_user_status,
       sys_role_seq,
-      user_type,
       create_by,
       create_date,
       update_by,
@@ -26,6 +26,7 @@
        #{sysUserSeq},
        #{userName},
        #{password},
+       #{sex},
        #{age},
        #{email},
        #{phone},
@@ -34,7 +35,6 @@
        #{realBirthday},
        #{sysUserStatus},
        #{sysRoleSeq},
-       #{userType},
        #{createBy},
        #{createDate},
        #{updateBy},
@@ -51,6 +51,9 @@
             </if>
             <if test="password !=null and password != ''">
                 AND  password=#{password}
+            </if>
+            <if test="sex !=null and sex != ''">
+                AND  sex=#{sex}
             </if>
             <if test="age !=null and age != ''">
                 AND  age=#{age}
@@ -75,9 +78,6 @@
             </if>
             <if test="sysRoleSeq !=null and sysRoleSeq != ''">
                 AND  sys_role_seq=#{sysRoleSeq}
-            </if>
-            <if test="userType !=null and userType != ''">
-                AND  user_type=#{userType}
             </if>
             <if test="createBy !=null and createBy != ''">
                 AND  create_by=#{createBy}

@@ -34,6 +34,9 @@ public class SysUser extends BasePojoEntity implements Serializable {
     @JsonIgnore
     private String password;
 
+    @ApiModelProperty(value = "性别",dataType = "char",required = true)
+    private Character sex;
+
     @ApiModelProperty(value = "年龄",dataType = "int",required = true)
     private Integer age;
 
@@ -62,15 +65,9 @@ public class SysUser extends BasePojoEntity implements Serializable {
     /**
      * 拥有角色
      */
-    @ApiModelProperty(value = "拥有角色",dataType = "string",required = true,hidden = true)
+    @ApiModelProperty(value = "拥有角色",dataType = "long",required = true,hidden = true)
     @Column(name="sys_role_seq")
-    private String sysRoleSeq;
+    private Long sysRoleSeq;
 
-    /**
-     * 用户类型：0 系统用户，1 普通用户
-     */
-    @ApiModelProperty(value = "用户类型",dataType = "char",required = true,hidden = true)
-    @Column(name="user_type")
-    private Character userType;
 
 }

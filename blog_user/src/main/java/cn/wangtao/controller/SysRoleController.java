@@ -86,8 +86,8 @@ public class SysRoleController implements SysRoleControllerApi {
         role.setRoleName(roleName);
         map.put("roleName",roleName);
         SysUser sysUser = (SysUser)request.getSession().getAttribute("user");
-        if(sysUser!=null&& Constants.USER_SYSTEM==sysUser.getUserType()){
-            role.setCreateBy(sysUser.getSysUserSeq());//从Session中取
+        if(sysUser!=null){
+            role.setCreateBy(sysUser.getUserName());//从Session中取
         }
         try{
             int num = roleService.insert(role);
@@ -111,7 +111,7 @@ public class SysRoleController implements SysRoleControllerApi {
         BlogResponse blogResponse = new BlogResponse();
         HashMap<String, Object> map = new HashMap<>();
         SysUser currentUser = (SysUser)request.getSession().getAttribute("user");
-        role.setUpdateBy(currentUser.getSysUserSeq());
+        role.setUpdateBy(currentUser.getUserName());
         try {
             int num = roleService.update(role);
             if(1==num){

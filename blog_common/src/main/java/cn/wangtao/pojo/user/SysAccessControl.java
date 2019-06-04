@@ -27,4 +27,8 @@ public class SysAccessControl extends BasePojoEntity implements Serializable {
 
     @ApiModelProperty(value = "功能名",dataType = "string",required = true)
     private String accessControlName;
+
+    @ApiModelProperty(value = "功能英语别名",dataType = "string",required = true)
+    @Column(name = "access_control_en_name")
+    private String accessControlEnName;
 }

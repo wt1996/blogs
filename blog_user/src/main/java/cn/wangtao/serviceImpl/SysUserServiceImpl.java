@@ -98,13 +98,13 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public int deleteById(Long id,Long updateById) throws Exception {
+    public int deleteById(Long id,String userName) throws Exception {
         log.info("根据主键id删除对象 :[{}]",id);
         SysUser sysUser = selectById(id);
         if(sysUser!=null){
             //更新人，从session中获取
             sysUser.setSysUserStatus(Constants.STATUS_FORBIDDEN);//1 禁用
-            sysUser.setUpdateBy(updateById);
+            sysUser.setUpdateBy(userName);
             return userMapper.updateByPrimaryKeySelective(sysUser);
         }else{
             throw new ServiceException("用户不存在","");

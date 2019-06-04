@@ -28,4 +28,8 @@ public class SysRole extends BasePojoEntity implements Serializable {
     @ApiModelProperty(value = "角色名",dataType = "string",required = true)
     private String roleName;
 
+    @ApiModelProperty(value = "角色英语别名",dataType = "string",required = true)
+    @Column(name="role_en_name")
+    private String roleEnName;
+
 }

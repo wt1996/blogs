@@ -6,6 +6,7 @@
     <sql id="roleField">
       sys_access_control_seq,
       access_control_name,
+      access_control_en_name,
       create_by,
       create_date,
       update_by,
@@ -15,6 +16,7 @@
     <sql id="roleValue">
        #{sysAccessControlSeq},
        #{accessControlName},
+       #{accessControlEnName},
        #{createBy},
        #{createDate},
        #{updateBy},
@@ -28,6 +30,9 @@
           </if>
             <if test="accessControlName !=null and accessControlName != ''">
                 AND  access_control_name=#{accessControlName}
+            </if>
+            <if test="accessControlEnName !=null and accessControlEnName != ''">
+                AND  access_control_en_name=#{accessControlEnName}
             </if>
             <if test="createBy !=null and createBy != ''">
                 AND  create_by=#{createBy}

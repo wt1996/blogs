@@ -10,8 +10,7 @@ package cn.wangtao.utils;
 public interface Constants {
 
     //用户类别
-    char USER_SYSTEM='0';//系统用户
-    char USER_GENERAL='1';//普通用户
+    Long USER_COMMON=1l;//普通用户
 
     char STATUS__NORMAL='0';//正常
     char STATUS_FORBIDDEN='1';//禁用

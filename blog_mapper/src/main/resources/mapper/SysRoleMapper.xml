@@ -6,6 +6,7 @@
     <sql id="roleField">
       sys_role_seq,
       role_name,
+      role_en_name,
       create_by,
       create_date,
       update_by,
@@ -15,6 +16,7 @@
     <sql id="roleValue">
        #{sysRoleSeq},
        #{roleName},
+       #{roleEnName},
        #{createBy},
        #{createDate},
        #{updateBy},
@@ -28,6 +30,9 @@
           </if>
             <if test="roleName !=null and roleName != ''">
                 AND  role_name=#{roleName}
+            </if>
+            <if test="roleEnName !=null and roleEnName != ''">
+                AND  role_en_name=#{roleEnName}
             </if>
             <if test="createBy !=null and createBy != ''">
                 AND  create_by=#{createBy}

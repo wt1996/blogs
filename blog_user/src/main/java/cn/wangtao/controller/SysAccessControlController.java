@@ -86,8 +86,8 @@ public class SysAccessControlController implements SysAccessControlControllerApi
         SysAccessControl accessControl = new SysAccessControl();
         accessControl.setAccessControlName(accessControlName);
         SysUser sysUser = (SysUser)request.getSession().getAttribute("user");
-        if(sysUser!=null&& Constants.USER_SYSTEM==sysUser.getUserType()){
-            accessControl.setCreateBy(sysUser.getSysUserSeq());//从Session中取
+        if(sysUser!=null){
+            accessControl.setCreateBy(sysUser.getUserName());//从Session中取
         }
         try{
             int num = accessControlService.insert(accessControl);
@@ -111,7 +111,7 @@ public class SysAccessControlController implements SysAccessControlControllerApi
         BlogResponse blogResponse = new BlogResponse();
         HashMap<String, Object> map = new HashMap<>();
         SysUser currentUser = (SysUser)request.getSession().getAttribute("user");
-        accessControl.setUpdateBy(currentUser.getSysUserSeq());
+        accessControl.setUpdateBy(currentUser.getUserName());
         try {
             int num = accessControlService.update(accessControl);
             if(1==num){

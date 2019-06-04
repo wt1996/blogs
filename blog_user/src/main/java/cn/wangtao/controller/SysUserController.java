@@ -41,11 +41,10 @@ public class SysUserController implements SysUserControllerApi {
         HashMap<String, Object> map = new HashMap<>();
         map.put("user",user);
         SysUser sysUser = (SysUser)request.getSession().getAttribute("user");
-        if(sysUser!=null&&Constants.USER_SYSTEM==sysUser.getUserType()){
-            user.setCreateBy(sysUser.getSysUserSeq());//从Session中取
-            user.setUserType(sysUser.getUserType()); //从session中获取
+        if(sysUser!=null){
+            user.setCreateBy(sysUser.getUserName());//从Session中取
         }else{
-            user.setUserType(Constants.USER_GENERAL);
+            user.setSysRoleSeq(Constants.USER_COMMON);//普通用户
         }
 
         try{
@@ -135,7 +134,7 @@ public class SysUserController implements SysUserControllerApi {
         BeanUtils.copyProperties(userModel,user);
         //获取当前对象
         SysUser currentUser = (SysUser)request.getSession().getAttribute("user");
-        user.setUpdateBy(currentUser.getSysUserSeq());
+        user.setUpdateBy(currentUser.getUserName());
         try {
             int num = sysUserService.update(user);
             if(1==num){
@@ -169,7 +168,7 @@ public class SysUserController implements SysUserControllerApi {
         try {
             //获取当前对象
             SysUser currentUser = (SysUser)request.getSession().getAttribute("user");
-            int num = sysUserService.deleteById(id, currentUser.getSysUserSeq());
+            int num = sysUserService.deleteById(id, currentUser.getUserName());
             blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
             blogResponse.setReturnMessage("根据id删除对象成功");
             blogResponse.setData(map);

@@ -48,7 +48,7 @@ public class LoginController  implements LoginControllerApi {
         if(sysUser!=null){
             blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
             blogResponse.setReturnMessage("登录成功");
-            //map.put("user",sysUser);
+            map.put("userName",sysUser.getUserName());
             blogResponse.setData(map);
             return blogResponse;
         }
@@ -68,8 +68,8 @@ public class LoginController  implements LoginControllerApi {
             return blogResponse;
         }
         try {
-            //判断状态是否可用
-            if(Constants.USER_SYSTEM != sysUser.getSysUserStatus()){
+            //判断状态是否可用 0 正常，1 禁用
+            if(Constants.STATUS__NORMAL != sysUser.getSysUserStatus()){
                 blogResponse.setReturnCode(ConstantException.ERRORCODE);
                 blogResponse.setReturnMessage("用户状态异常，请重试或联系管理员");
                 return blogResponse;
@@ -77,7 +77,7 @@ public class LoginController  implements LoginControllerApi {
             if(SecurityUtil.verify(password, userName, sysUser.getPassword())) {
                 blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
                 blogResponse.setReturnMessage("登录成功");
-                //map.put("user",sysUser);
+                map.put("userName",sysUser.getUserName());
                 blogResponse.setData(map);
                 session.setAttribute("user",sysUser);
             }else{

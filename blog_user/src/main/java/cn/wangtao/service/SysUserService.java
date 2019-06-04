@@ -19,5 +19,5 @@ public interface SysUserService  extends BaseServiceEntity<SysUser,Long> {
 
     List<SysUser> selectByParams(SysUserModel params) throws Exception;
 
-    int deleteById(Long id, Long sysUserSeq)throws Exception;
+    int deleteById(Long id, String userName)throws Exception;
 }

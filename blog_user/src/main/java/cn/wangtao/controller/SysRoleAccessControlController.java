@@ -41,7 +41,7 @@ public class SysRoleAccessControlController implements SysRoleAccessControlContr
         HashMap<String, Object> map = new HashMap<>();
         map.put("roleAccessControl",roleAccessControl);
         SysUser sysUser = (SysUser)request.getSession().getAttribute("user");
-        if(sysUser!=null&& Constants.USER_SYSTEM==sysUser.getUserType()){
+        if(sysUser!=null){
             roleAccessControl.setCreateBy(sysUser.getSysUserSeq());//从Session中取
         }
         try{
