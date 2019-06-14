@@ -4,9 +4,7 @@ import cn.wangtao.baseEntity.BasePojoEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -20,9 +18,11 @@ import java.io.Serializable;
 @Table(name = "sys_access_control")
 public class SysAccessControl extends BasePojoEntity implements Serializable {
 
+    //自增
     @ApiModelProperty(value = "功能序列号",dataType = "long",required = true,hidden = true)
     @Column(name = "sys_access_control_seq")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long sysAccessControlSeq;
 
     @ApiModelProperty(value = "功能名",dataType = "string",required = true)

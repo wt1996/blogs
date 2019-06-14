@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.BlogMenuMapper">
+
+    <sql id="field">
+      menu_seq,
+      menu_name,
+      menu_status,
+      menu_desc,
+      create_by_name,
+      create_date,
+      update_by,
+      update_date
+    </sql>
+
+    <sql id="value">
+       #{menuSeq},
+       #{menuName},
+       #{menuStatus},
+       #{menuDesc},
+       #{createByName},
+       #{createDate},
+       #{updateBy},
+       #{updateDate}
+    </sql>
+
+
+
+</mapper>

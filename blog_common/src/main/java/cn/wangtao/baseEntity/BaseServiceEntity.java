@@ -4,6 +4,7 @@ package cn.wangtao.baseEntity;
 import java.io.Serializable;
 import java.util.List;
 
+
 /**
  * @ClassName BaseServiceEntity
  * @Auth 桃子
@@ -11,43 +12,68 @@ import java.util.List;
  * @Version 1.0
  * @Description  针对普通的CRUD的创建
  **/
-public  interface  BaseServiceEntity<T, E extends Serializable> {
+public abstract class  BaseServiceEntity<T, E extends Serializable> {
+
+    public abstract BaseMapperEntity<T, E> getMapper() throws Exception;
 
     /**
-     * BaseMapper
-     */
-     BaseMapperEntity<T, E> getMappser() throws Exception;
+     * @Author wangtao
+     * @Date 2019-6-12  10:31
+     * @Param 对象模型参数
+     * @return 符合的对象
+     * @Description  根据对象属性进行查询对象
+     **/
+    public T selectOne(T o)throws Exception{
+        return this.getMapper().selectOne(o);
+    }
 
     /**
-     * 查询
-     */
-     T selectOne(T o) throws Exception;
-
-     List<T> selectAll() throws Exception;
-
-     List<T> selectByIds(String ids) throws Exception;
-
-     T selectById(E id) throws Exception;
-
+     * @Author wangtao
+     * @Date 2019-6-12  10:31
+     * @return 所有的记录
+     * @Description 查询所有的对象
+     **/
+    public List<T> selectAll() throws Exception{
+        return this.getMapper().selectAll();
+    }
+    /**
+     * @Author wangtao
+     * @Date 2019-6-12  10:31
+     * @Param 主键id
+     * @return 操作记录数
+     * @Description 根据id进行删除对象--直接删除
+     **/
+    public T selectById(E id) throws Exception{
+        return this.getMapper().selectByPrimaryKey(id);
+    }
 
     /**
-     * 添加
-     */
-
-     int insert(T o) throws Exception;
-
-     int insertList(List<T> list) throws Exception;
-
-    /**
-     * 修改
-     */
-     int update(T o) throws Exception;
-
+     * @Author wangtao
+     * @Date 2019-6-12  10:31
+     * @Param 主键id
+     * @return 操作记录数
+     * @Description 根据id进行删除对象--直接删除
+     **/
+    public int deleteById(E id) throws Exception{
+        return this.getMapper().deleteByPrimaryKey(id);
+    }
 
     /**
-     * 删除
-     */
-     int delete(T o) throws Exception;
+     * @Author wangtao
+     * @Date 2019-6-12  10:32
+     * @Param  原对象 o
+     * @return 操作记录数
+     * @Description 添加对象
+     **/
+    public abstract int insert(T o) throws Exception;
 
-     int deleteById(E id) throws Exception;
+    /**
+     * @Author wangtao
+     * @Date 2019-6-12  10:32
+     * @Param  原对象 o
+     * @return 操作记录数
+     * @Description 修改对象
+     **/
+    public abstract int update(T o) throws Exception;
+
 }

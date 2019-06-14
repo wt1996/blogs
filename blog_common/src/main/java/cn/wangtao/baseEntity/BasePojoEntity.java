@@ -16,8 +16,8 @@ import java.util.Date;
 @Data
 public class BasePojoEntity {
 
-    @ApiModelProperty(value = "创建人", hidden = true)
-    private String createBy;
+    @ApiModelProperty(value = "创建人姓名", hidden = true)
+    private String createByName;
 
     @ApiModelProperty(value = "创建时间", hidden = true)
     private Date createDate;

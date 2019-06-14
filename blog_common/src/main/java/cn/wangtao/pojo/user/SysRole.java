@@ -4,9 +4,7 @@ import cn.wangtao.baseEntity.BasePojoEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -20,9 +18,11 @@ import java.io.Serializable;
 @Table(name="sys_role")
 public class SysRole extends BasePojoEntity implements Serializable {
 
+    //自增
     @ApiModelProperty(value = "角色序列号",dataType = "long",required = true,hidden = true)
     @Column(name = "sys_role_seq")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sysRoleSeq;
 
     @ApiModelProperty(value = "角色名",dataType = "string",required = true)

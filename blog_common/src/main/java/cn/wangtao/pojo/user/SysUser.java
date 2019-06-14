@@ -6,9 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -22,9 +20,11 @@ import java.io.Serializable;
 @Table(name="sys_user")
 public class SysUser extends BasePojoEntity implements Serializable {
 
+    //自增
     @ApiModelProperty(value = "用户序列号",dataType = "long",required = true,hidden = true)
     @Column(name = "sys_user_seq")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sysUserSeq;
 
     @ApiModelProperty(value = "用户名",dataType = "string",required = true)
@@ -48,6 +48,9 @@ public class SysUser extends BasePojoEntity implements Serializable {
 
     @ApiModelProperty(value = "手机号",dataType = "string",required = true)
     private String phone;
+
+    @ApiModelProperty(value = "用户头像地址",dataType = "string",required = true)
+    private String userHeadImage;
 
     @ApiModelProperty(value = "真实姓名",dataType = "string",required = true,hidden = true)
     private String realName;

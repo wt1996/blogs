@@ -2,7 +2,7 @@
 <project version="4">
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/blog_user" />
-    <file type="web" url="file://$PROJECT_DIR$/blog_webapp_back" />
+    <file type="web" url="file://$PROJECT_DIR$/blog_webapp_blogs" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -10,9 +10,10 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/blog_user/pom.xml" />
         <option value="$PROJECT_DIR$/blog_mapper/pom.xml" />
-        <option value="$PROJECT_DIR$/blog_common/pom.xml" />
         <option value="$PROJECT_DIR$/blog_Api/pom.xml" />
         <option value="$PROJECT_DIR$/blog_webapp_back/pom.xml" />
+        <option value="$PROJECT_DIR$/blog_common/pom.xml" />
+        <option value="$PROJECT_DIR$/blog_webapp_blogs/pom.xml" />
       </list>
     </option>
   </component>

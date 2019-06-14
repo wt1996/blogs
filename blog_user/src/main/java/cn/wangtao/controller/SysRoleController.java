@@ -6,10 +6,10 @@ import cn.wangtao.exception.ConstantException;
 import cn.wangtao.pojo.user.SysRole;
 import cn.wangtao.pojo.user.SysUser;
 import cn.wangtao.service.SysRoleService;
-import cn.wangtao.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ import java.util.List;
 public class SysRoleController implements SysRoleControllerApi {
 
     @Autowired
-    private  SysRoleService roleService;
+    private SysRoleService roleService;
 
     @GetMapping("selectAll")
     @ResponseBody
@@ -47,7 +47,7 @@ public class SysRoleController implements SysRoleControllerApi {
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("查询所有角色失败");
-            log.error("查询所有角色失败",e);
+            log.error("查询所有角色失败，代码出现异常",e);
         }
         return blogResponse;
     }
@@ -59,6 +59,13 @@ public class SysRoleController implements SysRoleControllerApi {
         log.info("根据id查询对象接受到参数:[{}]",id);
         BlogResponse blogResponse = new BlogResponse();
         HashMap<String, Object> map = new HashMap<>();
+        //参数校验
+        if(StringUtils.isEmpty(id)){
+            blogResponse.setReturnCode(ConstantException.ERRORCODE);
+            blogResponse.setReturnMessage("查询失败，请求参数不合法");
+            log.error("查询失败，主键id不能为空");
+            return blogResponse;
+        }
         try {
             SysRole role = roleService.selectById(id);
             map.put("role",role);
@@ -69,7 +76,7 @@ public class SysRoleController implements SysRoleControllerApi {
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("根据id查询对象失败");
-            log.error("根据id[{}]查询对象失败",id,e);
+            log.error("根据id[{}]查询对象失败，代码出现异常",id,e);
         }
         return blogResponse;
     }
@@ -82,15 +89,23 @@ public class SysRoleController implements SysRoleControllerApi {
         log.info("添加角色接受到参数：[{}]",roleName);
         BlogResponse blogResponse = new BlogResponse();
         HashMap<String, Object> map = new HashMap<>();
+        //参数校验
+        if(StringUtils.isEmpty(roleName)){
+            blogResponse.setReturnCode(ConstantException.ERRORCODE);
+            blogResponse.setReturnMessage("增加失败，请求参数不合法");
+            log.error("增加失败，角色名不能为空");
+            return blogResponse;
+        }
+        //执行增加
         SysRole role =new SysRole();
         role.setRoleName(roleName);
-        map.put("roleName",roleName);
-        SysUser sysUser = (SysUser)request.getSession().getAttribute("user");
-        if(sysUser!=null){
-            role.setCreateBy(sysUser.getUserName());//从Session中取
+        SysUser currentUser = (SysUser)request.getSession().getAttribute("user");
+        if(currentUser!=null){
+            role.setCreateByName(currentUser.getUserName());//从Session中取
         }
         try{
             int num = roleService.insert(role);
+            map.put("role",role);
             blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
             blogResponse.setReturnMessage("添加角色成功");
             blogResponse.setData(map);
@@ -98,7 +113,7 @@ public class SysRoleController implements SysRoleControllerApi {
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("添加角色失败");
-            log.error("添加角色失败[{}],原因[{}]",role,e);
+            log.error("添加角色失败[{}],代码出现异常",role,e);
         }
         return blogResponse;
     }
@@ -109,28 +124,26 @@ public class SysRoleController implements SysRoleControllerApi {
     public BlogResponse update(SysRole role,HttpServletRequest request) {
         log.info("修改角色接受到参数:[{}]",role);
         BlogResponse blogResponse = new BlogResponse();
-        HashMap<String, Object> map = new HashMap<>();
+        //参数校验
+        if(StringUtils.isEmpty(role.getSysRoleSeq())){
+            blogResponse.setReturnCode(ConstantException.ERRORCODE);
+            blogResponse.setReturnMessage("修改失败，请求参数不合法");
+            log.error("修改失败，主键id不能为空");
+            return blogResponse;
+        }
         SysUser currentUser = (SysUser)request.getSession().getAttribute("user");
-        role.setUpdateBy(currentUser.getUserName());
+        if(currentUser!=null){
+            role.setUpdateBy(currentUser.getUserName());
+        }
         try {
             int num = roleService.update(role);
-            if(1==num){
-                SysRole sysRole=null;
-                try{
-                    sysRole= roleService.selectById(role.getSysRoleSeq());
-                    log.info("修改对象成功[{}]记录数[{}]查询修改后的对象成功:[{}]",role,num,sysRole);
-                }catch (Exception e){
-                    log.error("修改对象成功[{}]记录数[{}]查询修改后的对象失败:[{}]",role,num,sysRole,e);
-                }
-                map.put("user",sysRole);
-                blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
-                blogResponse.setReturnMessage("修改对象成功");
-                blogResponse.setData(map);
-            }
+            log.info("修改对象成功[{}]记录数[{}]",role,num);
+            blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
+            blogResponse.setReturnMessage("修改对象成功");
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("修改对象失败");
-            log.error("修改对象[{}]失败",role,e);
+            log.error("修改对象[{}]失败，代码出现异常",role,e);
         }
         return blogResponse;
     }
@@ -141,17 +154,22 @@ public class SysRoleController implements SysRoleControllerApi {
     public BlogResponse deleteById(@RequestParam("id") Long id,HttpServletRequest request) {
         log.info("根据id删除角色对象接受到参数:[{}]",id);
         BlogResponse blogResponse = new BlogResponse();
-        HashMap<String, Object> map = new HashMap<>();
+        //参数校验
+        if(StringUtils.isEmpty(id)){
+            blogResponse.setReturnCode(ConstantException.ERRORCODE);
+            blogResponse.setReturnMessage("删除失败，请求参数不合法");
+            log.error("删除失败，主键id不能为空");
+            return blogResponse;
+        }
         try {
             int num = roleService.deleteById(id);
             blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
             blogResponse.setReturnMessage("根据id删除角色对象成功");
-            blogResponse.setData(map);
             log.info("根据id[{}]删除角色对象成功,记录数[{}]",id,num);
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("根据id删除角色对象失败");
-            log.error("根据id[{}]删除角色对象失败",id,e);
+            log.error("根据id[{}]删除角色对象失败，代码出现异常",id,e);
         }
         return blogResponse;
     }

@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper  namespace="cn.wangtao.mapper.SysUserMapper">
 
-    <sql id="userField">
+    <sql id="field">
       sys_user_seq,
       user_name,
       password,
@@ -11,18 +11,19 @@
       age,
       email,
       phone,
+      user_head_image,
       birthday,
       real_name,
       real_birthday,
       sys_user_status,
       sys_role_seq,
-      create_by,
+      create_by_name,
       create_date,
       update_by,
       update_date
     </sql>
 
-    <sql id="userValue">
+    <sql id="value">
        #{sysUserSeq},
        #{userName},
        #{password},
@@ -30,12 +31,13 @@
        #{age},
        #{email},
        #{phone},
+       #{userHeadImage},
        #{birthday},
        #{realName},
        #{realBirthday},
        #{sysUserStatus},
        #{sysRoleSeq},
-       #{createBy},
+       #{createByName},
        #{createDate},
        #{updateBy},
        #{updateDate}
@@ -79,8 +81,8 @@
             <if test="sysRoleSeq !=null and sysRoleSeq != ''">
                 AND  sys_role_seq=#{sysRoleSeq}
             </if>
-            <if test="createBy !=null and createBy != ''">
-                AND  create_by=#{createBy}
+            <if test="createByName !=null and createByName != ''">
+                AND  create_by_name=#{createByName}
             </if>
             <if test="createDate !=null and createDate != ''">
                 AND  create_date=#{createDate}
@@ -96,11 +98,11 @@
     </sql>
 
     <select id="selectByUserName" parameterType="String" resultType="SysUser">
-        select  <include refid="userField"/> from  sys_user where user_name=#{userName}
+        select  <include refid="field"/> from  sys_user where user_name=#{userName}
     </select>
 
     <select id="selectByParams" parameterType="SysUser" resultType="SysUser">
-        select  <include refid="userField"/> from  sys_user <include refid="selectWhere"/>
+        select  <include refid="field"/> from  sys_user <include refid="selectWhere"/>
 
     </select>
 

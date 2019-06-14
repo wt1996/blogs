@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,13 +40,13 @@ public class SysRoleAccessControlController implements SysRoleAccessControlContr
         log.info("添加角色权限接受到参数：[{}]",roleAccessControl);
         BlogResponse blogResponse = new BlogResponse();
         HashMap<String, Object> map = new HashMap<>();
-        map.put("roleAccessControl",roleAccessControl);
         SysUser sysUser = (SysUser)request.getSession().getAttribute("user");
         if(sysUser!=null){
-            roleAccessControl.setCreateBy(sysUser.getSysUserSeq());//从Session中取
+            roleAccessControl.setCreateByName(sysUser.getUserName());//从Session中取
         }
         try{
             int num = roleAccessControlService.insert(roleAccessControl);
+            map.put("roleAccessControl",roleAccessControl);
             blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
             blogResponse.setReturnMessage("添加角色权限成功");
             blogResponse.setData(map);
@@ -53,7 +54,7 @@ public class SysRoleAccessControlController implements SysRoleAccessControlContr
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("添加角色权限失败");
-            log.error("添加角色权限失败[{}]",roleAccessControl,e);
+            log.error("添加角色权限失败[{}]，代码出现异常",roleAccessControl,e);
         }
         return blogResponse;
     }
@@ -61,7 +62,7 @@ public class SysRoleAccessControlController implements SysRoleAccessControlContr
     @Override
     @PostMapping("delete")
     @ResponseBody
-    public BlogResponse deleteByTwoId(Long sysRoleSeq, Long sysAccessControlSeq) {
+    public BlogResponse deleteByTwoId(@RequestParam("sysRoleSeq") Long sysRoleSeq, @RequestParam("sysAccessControlSeq") Long sysAccessControlSeq) {
         log.info("根据sysRoleSeq：[{}], sysAccessControlSeq: [{}]删除角色权限开始",sysRoleSeq,sysAccessControlSeq);
         BlogResponse blogResponse = new BlogResponse();
         try {
@@ -72,7 +73,7 @@ public class SysRoleAccessControlController implements SysRoleAccessControlContr
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("根据id删除角色权限失败");
-            log.error("根据sysRoleSeq：[{}], sysAccessControlSeq: [{}]删除角色权限失败",sysRoleSeq,sysAccessControlSeq,e);
+            log.error("根据sysRoleSeq：[{}], sysAccessControlSeq: [{}]删除角色权限失败，代码出现异常",sysRoleSeq,sysAccessControlSeq,e);
         }
         return blogResponse;
     }

@@ -6,10 +6,10 @@ import cn.wangtao.exception.ConstantException;
 import cn.wangtao.pojo.user.SysAccessControl;
 import cn.wangtao.pojo.user.SysUser;
 import cn.wangtao.service.SysAccessControlService;
-import cn.wangtao.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +47,7 @@ public class SysAccessControlController implements SysAccessControlControllerApi
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("查询所有功能失败");
-            log.error("查询所有功能失败",e);
+            log.error("查询所有功能失败，代码出现异常",e);
         }
         return blogResponse;
     }
@@ -59,6 +59,13 @@ public class SysAccessControlController implements SysAccessControlControllerApi
         log.info("根据id查询对象接受到参数:[{}]",id);
         BlogResponse blogResponse = new BlogResponse();
         HashMap<String, Object> map = new HashMap<>();
+        //参数校验
+        if(StringUtils.isEmpty(id)){
+            blogResponse.setReturnCode(ConstantException.ERRORCODE);
+            blogResponse.setReturnMessage("请求参数不合法");
+            log.error("请求参数不合法,id不能为空");
+            return blogResponse;
+        }
         try {
             SysAccessControl accessControl = accessControlService.selectById(id);
             map.put("accessControl",accessControl);
@@ -69,7 +76,7 @@ public class SysAccessControlController implements SysAccessControlControllerApi
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("根据id查询对象失败");
-            log.error("根据id[{}]查询对象失败",id,e);
+            log.error("根据id[{}]查询对象失败，代码出现异常",id,e);
         }
         return blogResponse;
     }
@@ -82,15 +89,23 @@ public class SysAccessControlController implements SysAccessControlControllerApi
         log.info("添加功能接受到参数：[{}]",accessControlName);
         BlogResponse blogResponse = new BlogResponse();
         HashMap<String, Object> map = new HashMap<>();
-        map.put("accessControlName",accessControlName);
+        //参数校验
+        if(StringUtils.isEmpty(accessControlName)){
+            blogResponse.setReturnCode(ConstantException.ERRORCODE);
+            blogResponse.setReturnMessage("请求参数不合法");
+            log.error("请求参数不合法,accessControlName不能为空");
+            return blogResponse;
+        }
+
         SysAccessControl accessControl = new SysAccessControl();
         accessControl.setAccessControlName(accessControlName);
-        SysUser sysUser = (SysUser)request.getSession().getAttribute("user");
-        if(sysUser!=null){
-            accessControl.setCreateBy(sysUser.getUserName());//从Session中取
+        SysUser currentUser = (SysUser)request.getSession().getAttribute("user");
+        if(currentUser!=null){
+            accessControl.setCreateByName(currentUser.getUserName());//从Session中取
         }
         try{
             int num = accessControlService.insert(accessControl);
+            map.put("accessControl",accessControl);
             blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
             blogResponse.setReturnMessage("添加功能成功");
             blogResponse.setData(map);
@@ -98,7 +113,7 @@ public class SysAccessControlController implements SysAccessControlControllerApi
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("添加功能失败");
-            log.error("添加功能对象失败[{}]",accessControl,e);
+            log.error("添加功能对象失败[{}]，代码出现异常",accessControl,e);
         }
         return blogResponse;
     }
@@ -109,28 +124,27 @@ public class SysAccessControlController implements SysAccessControlControllerApi
     public BlogResponse update(SysAccessControl accessControl,HttpServletRequest request) {
         log.info("修改功能接受到参数:[{}]",accessControl);
         BlogResponse blogResponse = new BlogResponse();
-        HashMap<String, Object> map = new HashMap<>();
+        //参数校验
+        if(StringUtils.isEmpty(accessControl.getSysAccessControlSeq())){
+            blogResponse.setReturnCode(ConstantException.ERRORCODE);
+            blogResponse.setReturnMessage("修改对象失败，请求参数不合法");
+            log.error("修改对象失败，主键不存在");
+            return blogResponse;
+        }
+
         SysUser currentUser = (SysUser)request.getSession().getAttribute("user");
-        accessControl.setUpdateBy(currentUser.getUserName());
+        if(currentUser!=null){
+            accessControl.setUpdateBy(currentUser.getUserName());
+        }
         try {
             int num = accessControlService.update(accessControl);
-            if(1==num){
-                SysAccessControl sysAccessControl=null;
-                try{
-                    sysAccessControl= accessControlService.selectById(accessControl.getSysAccessControlSeq());
-                    log.info("修改对象成功[{}]记录数[{}]查询修改后的对象成功:[{}]",accessControl,num,sysAccessControl);
-                }catch (Exception e){
-                    log.error("修改对象成功[{}]记录数[{}]查询修改后的对象失败:[{}]",accessControl,num,sysAccessControl,e);
-                }
-                map.put("sysAccessControl",sysAccessControl);
-                blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
-                blogResponse.setReturnMessage("修改对象成功");
-                blogResponse.setData(map);
-            }
+            log.info("修改对象成功[{}]记录数[{}]查询修改后的对象成功:[{}]",accessControl,num);
+            blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
+            blogResponse.setReturnMessage("修改对象成功");
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("修改对象失败");
-            log.error("修改对象[{}]失败",accessControl,e);
+            log.error("修改对象[{}]失败，代码出现异常",accessControl,e);
         }
         return blogResponse;
     }
@@ -141,17 +155,22 @@ public class SysAccessControlController implements SysAccessControlControllerApi
     public BlogResponse deleteById(@RequestParam("id") Long id,HttpServletRequest request) {
         log.info("根据id删除功能对象接受到参数:[{}]",id);
         BlogResponse blogResponse = new BlogResponse();
-        HashMap<String, Object> map = new HashMap<>();
+        //参数校验
+        if(StringUtils.isEmpty(id)){
+            blogResponse.setReturnCode(ConstantException.ERRORCODE);
+            blogResponse.setReturnMessage("删除失败，请求参数不合法");
+            log.error("删除失败，主键id不能为空");
+            return blogResponse;
+        }
         try {
             int num = accessControlService.deleteById(id);
             blogResponse.setReturnCode(ConstantException.SUCCESSCODE);
             blogResponse.setReturnMessage("根据id删除功能对象成功");
-            blogResponse.setData(map);
             log.info("根据id[{}]删除功能对象成功，记录数[{}]",id,num);
         }catch (Exception e){
             blogResponse.setReturnCode(ConstantException.ERRORCODE);
             blogResponse.setReturnMessage("根据id删除功能对象失败");
-            log.error("根据id[{}]删除功能对象失败",id,e);
+            log.error("根据id[{}]删除功能对象失败，代码出现异常",id,e);
         }
         return blogResponse;
     }

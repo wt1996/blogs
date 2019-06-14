@@ -3,21 +3,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper  namespace="cn.wangtao.mapper.SysRoleMapper">
 
-    <sql id="roleField">
+    <sql id="field">
       sys_role_seq,
       role_name,
       role_en_name,
-      create_by,
+      create_by_name,
       create_date,
       update_by,
       update_date
     </sql>
 
-    <sql id="roleValue">
+    <sql id="value">
        #{sysRoleSeq},
        #{roleName},
        #{roleEnName},
-       #{createBy},
+       #{createByName},
        #{createDate},
        #{updateBy},
        #{updateDate}
@@ -34,8 +34,8 @@
             <if test="roleEnName !=null and roleEnName != ''">
                 AND  role_en_name=#{roleEnName}
             </if>
-            <if test="createBy !=null and createBy != ''">
-                AND  create_by=#{createBy}
+            <if test="createByName !=null and createByName != ''">
+                AND  create_by_name=#{createByName}
             </if>
             <if test="createDate !=null and createDate != ''">
                 AND  create_date=#{createDate}

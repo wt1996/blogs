@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.CommentUserLikeMapper">
+
+    <sql id="field">
+      com_user_seq,
+      com_seq,
+      user_seq,
+      create_date
+    </sql>
+
+    <sql id="value">
+       #{comUserSeq},
+       #{comSeq},
+       #{userSeq},
+       #{createDate}
+    </sql>
+
+    <delete id="deleteByTwo">
+        delete from comment_user where com_seq=#{comSeq} and user_seq=#{userSeq}
+    </delete>
+
+    <select id="selectByTwo" resultType="CommentUserLike">
+        select <include refid="field"/> from comment_user where com_seq=#{comSeq} and user_seq=#{userSeq}
+    </select>
+</mapper>

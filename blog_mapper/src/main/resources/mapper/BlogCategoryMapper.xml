@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.BlogCategoryMapper">
+
+    <sql id="field">
+      category_seq,
+      category_name,
+      parent_category_seq,
+      category_desc,
+      create_by_name,
+      create_date,
+      update_by,
+      update_date
+    </sql>
+
+    <sql id="value">
+       #{categorySeq},
+       #{categoryName},
+       #{parentCategorySeq},
+       #{categoryDesc},
+       #{setCreateByName},
+       #{createDate},
+       #{updateBy},
+       #{updateDate}
+    </sql>
+
+    <select id="selectAllByUserName" parameterType="String" resultType="BlogCategory">
+      select  <include refid="field"/> from  blog_category where create_by_name=#{setCreateByName}
+    </select>
+
+    <select id="selectByIdAndUserName" resultType="BlogCategory">
+        select  <include refid="field"/> from  blog_category where create_by_name=#{userName} and  category_seq=#{categorySeq}
+    </select>
+
+    <delete id="deleteByIdAndUserName">
+        delete from blog_category where create_by_name=#{userName} and  category_seq=#{categorySeq}
+    </delete>
+
+</mapper>

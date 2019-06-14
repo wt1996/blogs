@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.CommentMapper">
+
+    <sql id="field">
+      com_seq,
+      blog_seq,
+      com_content,
+      user_head_image,
+      com_parent,
+      isAdmin,
+      like_num,
+      create_by_name,
+      create_date
+    </sql>
+
+    <sql id="value">
+       #{comSeq},
+       #{blogSeq},
+       #{comContent},
+        #{userHeadImage},
+       #{comParent},
+       #{isAdmin},
+       #{likeNum},
+       #{createByName},
+       #{createDate}
+    </sql>
+
+    <select id="selectByBlog" parameterType="long" resultType="Comment">
+        select <include refid="field"/> from comment where blog_seq=#{blogSeq}
+    </select>
+
+    <select id="selectByComUser" parameterType="String" resultType="Comment">
+        select <include refid="field"/> from comment where create_by_name=#{userName}
+    </select>
+
+</mapper>

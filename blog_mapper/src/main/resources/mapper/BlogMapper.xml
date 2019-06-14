@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.BlogMapper">
+
+    <sql id="field">
+      blog_seq,
+      title,
+      category_seq,
+      menu_seq,
+      read_num,
+      com_num,
+      like_num,
+      top_num,
+      blog_status,
+      post_status,
+      allow_com,
+      create_by_name,
+      create_date,
+      update_by,
+      update_date
+    </sql>
+
+    <sql id="value">
+       #{blogSeq},
+       #{title},
+       #{categorySeq},
+       #{menuSeq},
+       #{readNum},
+       #{comNum},
+       #{likeNum},
+       #{topNum},
+       #{blogStatus},
+       #{postStatus},
+       #{allowCom},
+       #{createByName},
+       #{createDate},
+       #{updateBy},
+       #{updateDate}
+    </sql>
+</mapper>

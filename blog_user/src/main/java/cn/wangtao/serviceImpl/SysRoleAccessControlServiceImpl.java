@@ -16,9 +16,9 @@ import java.util.Date;
  * @Date 2019-5-30 10:04
  * @Version 1.0
  **/
-@Service
 @Slf4j
 @Transactional
+@Service("sysRoleAccessControlServiceImpl")
 class SysRoleAccessControlServiceImpl implements SysRoleAccessControlService {
 
     @Autowired
@@ -27,12 +27,12 @@ class SysRoleAccessControlServiceImpl implements SysRoleAccessControlService {
     @Override
     public int insert(SysRoleAccessControl role) throws Exception {
         role.setCreateDate(new Date());
-        return roleAccessControlMapper.insert(role);
+        return this.roleAccessControlMapper.insert(role);
     }
 
     @Override
     public int deleteByTwoId(Long sysRoleSeq, Long sysAccessControlSeq) throws Exception {
-        return roleAccessControlMapper.deleteByTwoId(sysRoleSeq,sysAccessControlSeq);
+        return this.roleAccessControlMapper.deleteByTwoId(sysRoleSeq,sysAccessControlSeq);
     }
 
 

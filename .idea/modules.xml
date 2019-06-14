@@ -6,7 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/blog_common/blog_common.iml" filepath="$PROJECT_DIR$/blog_common/blog_common.iml" />
       <module fileurl="file://$PROJECT_DIR$/blog_mapper/blog_mapper.iml" filepath="$PROJECT_DIR$/blog_mapper/blog_mapper.iml" />
       <module fileurl="file://$PROJECT_DIR$/blog_user/blog_user.iml" filepath="$PROJECT_DIR$/blog_user/blog_user.iml" />
-      <module fileurl="file://$PROJECT_DIR$/blog_webapp_back/blog_webapp_back.iml" filepath="$PROJECT_DIR$/blog_webapp_back/blog_webapp_back.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blog_webapp_blogs/blog_webapp_blogs.iml" filepath="$PROJECT_DIR$/blog_webapp_blogs/blog_webapp_blogs.iml" />
       <module fileurl="file://$PROJECT_DIR$/blogs.iml" filepath="$PROJECT_DIR$/blogs.iml" />
     </modules>
   </component>

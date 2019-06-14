@@ -25,47 +25,25 @@ import java.util.List;
  * @Version 1.0
  * @Description
  **/
-@Service
 @Slf4j
 @Transactional
-public class SysUserServiceImpl implements SysUserService {
+@Service(value = "sysUserService")
+public class SysUserServiceImpl  extends SysUserService {
 
     @Autowired
     private SysUserMapper userMapper;
 
     @Override
-    public BaseMapperEntity<SysUser, Long> getMappser() {
+    public BaseMapperEntity<SysUser, Long> getMapper() {
         return  this.userMapper;
     }
 
-    @Override
-    public SysUser selectOne(SysUser user) throws Exception {
-        return userMapper.selectOne(user);
-    }
-
-    @Override
-    public List<SysUser> selectAll() throws Exception {
-        log.info("查询所有的SysUser对象");
-        return userMapper.selectAll();
-    }
-
-    @Override
-    public List<SysUser> selectByIds(String ids) throws Exception {
-        log.info("根据多个主键id查询SysUser对象:[{}]",ids);
-        return userMapper.selectByPrimaryKeys();
-    }
-
-
-    @Override
-    public SysUser selectById(Long id) throws Exception {
-        return userMapper.selectByPrimaryKey(id);
-    }
 
     @Override
     public List<SysUser> selectByParams(SysUserModel params) throws Exception {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(params,sysUser);
-        return userMapper.selectByParams(sysUser);
+        return this.userMapper.selectByParams(sysUser);
     }
 
     @Override
@@ -81,31 +59,26 @@ public class SysUserServiceImpl implements SysUserService {
             password=user.getPassword();
         }
         user.setPassword(password);
-        return userMapper.insert(user);
+        return this.userMapper.insert(user);
     }
 
-    @Override
-    public int insertList(List<SysUser> list) throws Exception {
-        log.info("添加多个SysUser对象:[{}]",list);
-        return userMapper.insertList(list);
-    }
 
     @Override
     public int update(SysUser user) throws Exception {
         //更新人，从session中获取
         user.setUpdateDate(new Date());
-        return userMapper.updateByPrimaryKeySelective(user);
+        return this.userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
     public int deleteById(Long id,String userName) throws Exception {
         log.info("根据主键id删除对象 :[{}]",id);
-        SysUser sysUser = selectById(id);
+        SysUser sysUser = this.selectById(id);
         if(sysUser!=null){
             //更新人，从session中获取
             sysUser.setSysUserStatus(Constants.STATUS_FORBIDDEN);//1 禁用
             sysUser.setUpdateBy(userName);
-            return userMapper.updateByPrimaryKeySelective(sysUser);
+            return this.userMapper.updateByPrimaryKeySelective(sysUser);
         }else{
             throw new ServiceException("用户不存在","");
         }
@@ -113,18 +86,12 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public SysUser selectByName(String userName) throws Exception {
-        return userMapper.selectByUserName(userName);
-    }
-
-    //以下暂时不用
-    @Override
-    public int delete(SysUser user) throws Exception {
-        //log.info("根据SysUser属性删除对象:[{}]",user);
-        return 0;
+        return this.userMapper.selectByUserName(userName);
     }
 
     @Override
     public int deleteById(Long id) throws Exception {
+        log.warn("用户表对于用户没有删除操作");
         return 0;
     }
 }

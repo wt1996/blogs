@@ -8,14 +8,27 @@ package cn.wangtao.utils;
  * @Description  系统常量
  **/
 public interface Constants {
+    /**
+     * 用户身份相关
+     */
 
-    //用户类别
-    Long USER_COMMON=1l;//普通用户
+    Long USER_COMMON=1l;
+    /**
+     *  状态相关
+     */
 
-    char STATUS__NORMAL='0';//正常
-    char STATUS_FORBIDDEN='1';//禁用
+    Character STATUS__NORMAL='0';//正常
+    Character STATUS_FORBIDDEN='1';//禁用
 
-    String DEFAULTARTICLECATEGORY="未分类";
+    //文章的发布状态 0:公开 1：私密
+    Character POSTSTATUS_PUBLIC='0';
+    Character POSTSTATUS_PRIVATE='1';
+
+    //文章的状态:0 正在编辑，1 已完成，2 草稿箱
+    Character ARTICLESTATUS_EDIT='0';
+    Character ARTICLESTATUS_FINISHED='1';
+    Character ARTICLESTATUS_DELETE='2';
+
 
     /**
      *  系统类别分类
@@ -26,5 +39,16 @@ public interface Constants {
     String CATEGORYTYPE_USER="categoryType_user"; //用户自定义分类
 
 
+    /**
+     * 系统常量
+     */
+    String DEFAULTARTICLECATEGORY="未分类";
 
+    Long PARENTCATEGORY=0L;
+
+    /**
+     * 点赞次数限制每次只能是1
+     */
+    int ADDNUM=1;
+    int DESCNUM=-1;
 }

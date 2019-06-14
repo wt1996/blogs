@@ -3,9 +3,7 @@ package cn.wangtao.pojo.user;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,9 +18,15 @@ import java.util.Date;
 @Table(name = "sys_role_access_control")
 public class SysRoleAccessControl implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="role_access_seq")
+    private Long roleAccessSeq;
+
     @ApiModelProperty(value = "角色序列号",dataType = "long",required = true)
     @Column(name = "sys_role_seq")
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long sysRoleSeq;
 
     @ApiModelProperty(value = "功能序列号",dataType = "long",required = true)
@@ -30,8 +34,8 @@ public class SysRoleAccessControl implements Serializable {
     @Id
     private long sysAccessControlSeq;
 
-    @ApiModelProperty(value = "创建人",dataType = "char",hidden = true)
-    private  Long createBy;
+    @ApiModelProperty(value = "创建人姓名",dataType = "char",hidden = true)
+    private  String createByName;
 
     @ApiModelProperty(value = "创建时间",dataType = "char",hidden = true)
     private Date createDate;

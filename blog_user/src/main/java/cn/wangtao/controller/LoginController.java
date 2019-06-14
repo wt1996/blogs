@@ -10,6 +10,7 @@ import cn.wangtao.utils.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +27,7 @@ import java.util.HashMap;
  * @Version 1.0
  **/
 @Controller
-@RequestMapping("/user")
+@RequestMapping("user")
 @Slf4j
 public class LoginController  implements LoginControllerApi {
 
@@ -36,12 +37,18 @@ public class LoginController  implements LoginControllerApi {
     @PostMapping("login")
     @ResponseBody
     public BlogResponse login(@RequestParam("userName") String userName, @RequestParam("password")String password, HttpServletRequest request) {
+        log.info("[{}]请求登录，登录密码[{}]",userName,password);
         BlogResponse blogResponse=new BlogResponse();
         HashMap<String, Object> map = new HashMap<>();
-        //进行校验
+        //参数校验
+        if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password)){
+            log.error("请求参数不合法");
+            blogResponse.setReturnCode(ConstantException.ERRORCODE);
+            blogResponse.setReturnMessage("登录失败，请求参数不合法");
+            return blogResponse;
+        }
         userName=userName.trim();
         password=password.trim();
-        log.info("[{}]请求登录，登录密码[{}]",userName,password);
         //判断Session中是否存在
         HttpSession session = request.getSession();
         SysUser sysUser = (SysUser)session.getAttribute("user");
@@ -82,7 +89,7 @@ public class LoginController  implements LoginControllerApi {
                 session.setAttribute("user",sysUser);
             }else{
                 blogResponse.setReturnCode(ConstantException.ERRORCODE);
-                blogResponse.setReturnMessage("登录失败，密码错误");
+                blogResponse.setReturnMessage("登录失败，用户名或密码错误");
             }
         } catch (Exception e) {
             log.error("密码验证时异常",e);
