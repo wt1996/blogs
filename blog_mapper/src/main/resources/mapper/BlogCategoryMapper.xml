@@ -10,7 +10,7 @@
       category_desc,
       create_by_name,
       create_date,
-      update_by,
+      update_by_name,
       update_date
     </sql>
 
@@ -19,9 +19,9 @@
        #{categoryName},
        #{parentCategorySeq},
        #{categoryDesc},
-       #{setCreateByName},
+       #{createByName},
        #{createDate},
-       #{updateBy},
+       #{updateByName},
        #{updateDate}
     </sql>
 

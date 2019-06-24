@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.SysNotifyMapper">
+
+    <sql id="field">
+      notify_seq,
+      notify_type,
+      notify_date,
+      notify_message,
+      notify_topic,
+      notify_status,
+      notify_result_mes,
+      create_by_name,
+      create_date,
+      update_by_name,
+      update_date
+    </sql>
+
+    <sql id="value">
+      #{notifySeq},
+      #{notifyType},
+      #{notifyDate},
+      #{notifyMessage},
+      #{notifyTopic},
+      #{notifyStatus},
+      #{notifyResultMes},
+      #{createByName},
+      #{createDate},
+      #{update_by_name},
+      #{update_date}
+    </sql>
+  <select id="selectAllByStatus" resultType="SysNotify">
+    select <include refid="field"/> from sys_notify where notify_status=#{notifyStatus}
+  </select>
+</mapper>

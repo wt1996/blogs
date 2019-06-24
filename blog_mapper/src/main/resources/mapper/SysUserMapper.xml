@@ -19,7 +19,7 @@
       sys_role_seq,
       create_by_name,
       create_date,
-      update_by,
+      update_by_name,
       update_date
     </sql>
 
@@ -39,7 +39,7 @@
        #{sysRoleSeq},
        #{createByName},
        #{createDate},
-       #{updateBy},
+       #{updateByName},
        #{updateDate}
     </sql>
 
@@ -106,6 +106,8 @@
 
     </select>
 
-
+<select id="selectEmails" resultType="String">
+    select email from sys_user;
+</select>
 
 </mapper>

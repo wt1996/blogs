@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.MessageMapper">
+
+    <sql id="field">
+      message_seq,
+      current_user_name,
+      message_content,
+      message_type,
+      create_by_name,
+      create_date,
+      head_image,
+      origin_id,
+      origin_title,
+      message_status
+    </sql>
+
+    <sql id="value">
+      #{messageSeq},
+      #{currentUserName},
+      #{messageContent},
+      #{messageType},
+      #{createByName},
+      #{createDate},
+      #{headImage},
+      #{originId},
+      #{originTitle},
+      #{messageStatus}
+    </sql>
+
+    <select id="selectNumGroupByType" resultType="java.util.Map">
+        select message_type, count(1) as num from message where current_user_name=#{currentUserName} GROUP BY message_type
+    </select>
+
+    <select id="selectNumByNo" resultType="int">
+        select count(1) from message where current_user_name=#{currentUserName} and message_status='0'
+    </select>
+
+    <select id="selectAllByType" resultType="Message">
+       select <include refid="field"/> from message where current_user_name=#{currentUserName} and message_type=#{messageType}
+    </select>
+</mapper>

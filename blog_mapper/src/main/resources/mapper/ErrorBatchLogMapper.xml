@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.ErrorBatchLogMapper">
+
+
+    <sql id="field">
+      log_seq,
+      notify_seq,
+      notify_message,
+      notify_topic,
+      notify_status,
+      email,
+      create_date,
+      error_message
+    </sql>
+    <sql id="value">
+      #{logSeq},
+      #{notifySeq},
+      #{notifyMessage},
+      #{notifyTopic},
+      #{notifyStatus},
+      #{email},
+      #{createDate}
+      #{errorMessage}
+    </sql>
+
+</mapper>

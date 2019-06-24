@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.FansMapper">
+
+    <sql id="field">
+      fans_seq,
+      author_name,
+      user_name,
+      author_head_image,
+      user_head_image,
+      create_date
+    </sql>
+
+    <sql id="value">
+      #{fansSeq},
+      #{authorName},
+      #{userName},
+      #{authorHeadImage},
+      #{userHeadImage},
+      #{createDate}
+    </sql>
+
+    <!-- 查询有哪些粉丝 -->
+    <select id="selectFans" resultType="Fans">
+      select <include refid="field"/>  from fans where author_name=#{authorName}
+    </select>
+
+    <!--查询关注了哪些博主 -->
+    <select id="selectFocus" resultType="Fans">
+      select <include refid="field"/>  from fans where user_name=#{userName}
+    </select>
+
+    <select id="selectTwoFansNum" resultType="java.util.Map">
+      select fansNum, focusNum from
+        (select count(1)  as fansNum  from fans where author_name=#{userName} ) a
+      join
+        (select count(1)  as focusNum  from fans where user_name=#{userName}) u
+    </select>
+
+    <delete id="cancelByName" >
+        delete from fans where author_name=#{authorName} and user_name=#{currentName}
+    </delete>
+
+    <select id="selectByTwoName" resultType="Fans">
+        select <include refid="field"/> from fans where author_name=#{authorName} and user_name=#{currentName}
+    </select>
+</mapper>

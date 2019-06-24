@@ -9,7 +9,6 @@
         <module name="blog_Api" />
         <module name="blog_common" />
         <module name="blog_mapper" />
-        <module name="blog_user" />
         <module name="blog_webapp_blogs" />
       </profile>
     </annotationProcessing>

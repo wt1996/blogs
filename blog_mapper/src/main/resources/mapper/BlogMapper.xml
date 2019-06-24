@@ -17,7 +17,7 @@
       allow_com,
       create_by_name,
       create_date,
-      update_by,
+      update_by_name,
       update_date
     </sql>
 
@@ -35,7 +35,11 @@
        #{allowCom},
        #{createByName},
        #{createDate},
-       #{updateBy},
+       #{updateByName},
        #{updateDate}
     </sql>
+
+    <select id="selectAllOBTopNumDesc" resultType="Blog">
+        select <include refid="field"/> from blogs order by top_num desc
+    </select>
 </mapper>

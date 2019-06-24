@@ -8,7 +8,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/blog_user/pom.xml" />
         <option value="$PROJECT_DIR$/blog_mapper/pom.xml" />
         <option value="$PROJECT_DIR$/blog_Api/pom.xml" />
         <option value="$PROJECT_DIR$/blog_webapp_back/pom.xml" />

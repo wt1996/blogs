@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper  namespace="cn.wangtao.mapper.SysCmsMapper">
+
+    <sql id="field">
+      cms_seq,
+      menu_seq,
+      blog_seq,
+      top_num,
+      description,
+      create_by_name,
+      create_date,
+      update_by_name,
+      update_date
+
+    </sql>
+
+    <sql id="value">
+      #{cmsSeq},
+      #{menuSeq},
+      #{blogSeq},
+      #{topNum},
+      #{description},
+      #{createByName},
+      #{createDate},
+      #{updateByName},
+      #{updateDate}
+    </sql>
+
+    <select id="selectAllDesc" resultType="Fans">
+      select <include refid="field"/>  from sys_cms order by top_num
+    </select>
+
+</mapper>

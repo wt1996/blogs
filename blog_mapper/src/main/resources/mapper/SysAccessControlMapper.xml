@@ -9,7 +9,7 @@
       access_control_en_name,
       create_by_name,
       create_date,
-      update_by,
+      update_by_name,
       update_date
     </sql>
 
@@ -19,7 +19,7 @@
        #{accessControlEnName},
        #{createByName},
        #{createDate},
-       #{updateBy},
+       #{updateByName},
        #{updateDate}
     </sql>
 
